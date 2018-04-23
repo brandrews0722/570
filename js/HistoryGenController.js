@@ -2,13 +2,13 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
     $scope.tOptions = [1, 2, 3, 4];
     $scope.dOptions = [1, 2, 3, 4];
     $scope.inputs = {tSize: 0, dSize: 0};
-    $scope.transactionCommitAborts = [];
-    $scope.isSerializable = true;
-    $scope.isRecoverable = true;
-    $scope.isStrict = true;
-    $scope.isACA = true;
 
     $scope.generate = function (tSize, dSize) {
+        $scope.transactionCommitAborts = [];
+        $scope.isSerializable = true;
+        $scope.isRecoverable = true;
+        $scope.isStrict = true;
+        $scope.isACA = true;
         $scope.HistoryArr = [];
         var tempDataItemArr = [];
         var transOperationCounter = 0;
@@ -146,23 +146,23 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
                 if (firstObj.dataItem === secondObj.dataItem){
 
                     if (secondObj.operation === 'r' &&
-                        (transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
-                                transactionCommitAborts[firstObj.transaction - 1].index >
-                                    transactionCommitAborts[secondObj.transaction - 1].index)){
+                        ($scope.transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
+                            $scope.transactionCommitAborts[firstObj.transaction - 1].index >
+                            $scope.transactionCommitAborts[secondObj.transaction - 1].index)){
                         $scope.isACA = false;
                         $scope.isStrict = false;
                     }
 
                     if (secondObj.operation === 'r' &&
-                            (transactionCommitAborts[secondObj.transaction - 1].op === 'c' &&
-                                transactionCommitAborts[firstObj.transaction - 1].index >
-                                transactionCommitAborts[secondObj.transaction - 1].index)){
+                            ($scope.transactionCommitAborts[secondObj.transaction - 1].op === 'c' &&
+                                $scope.transactionCommitAborts[firstObj.transaction - 1].index >
+                                $scope.transactionCommitAborts[secondObj.transaction - 1].index)){
                         $scope.isRecoverable = false;
                     }
 
-                    if (transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
-                            transactionCommitAborts[firstObj.transaction - 1].index >
-                            transactionCommitAborts[secondObj.transaction - 1].index){
+                    if ($scope.transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
+                        $scope.transactionCommitAborts[firstObj.transaction - 1].index >
+                        $scope.transactionCommitAborts[secondObj.transaction - 1].index){
                         $scope.isStrict = false;
                     }
                 }
@@ -180,6 +180,7 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
                         op: $scope.HistoryArr[operation].operation
                     };
                     $scope.transactionCommitAborts.push(tempCA);
+                    --tSize;
                 }
             }
         }
