@@ -74,10 +74,12 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
     function CheckSerializability(array, transactionSize) {
         var serialArray = [];
 
+        for (var t = 1; t <= transactionSize; t++) {
+            var serialItem = {trans: t, conflicts: []};
+            serialArray.push(serialItem)
+        }
+        
         for (var firstOperation = 0; firstOperation < array.length; firstOperation++) {
-
-            var serialItem = {trans: array[firstOperation].transaction, conflicts: []};
-            serialArray.push(serialItem);
 
             if (array[firstOperation].operation === 'a' || array[firstOperation].operation === 'c') {
                 continue;
@@ -100,92 +102,94 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
                 }
             }
         }
+    }
 
-        for (var sItem = 0; sItem < serialArray.length; sItem++) {
+    for (var sItem = 0; sItem < serialArray.length; sItem++) {
+
+        if ($scope.isSerializable === false) {
+            break;
+        }
+
+        for (var conflict = 0; conflict < serialArray[sItem].conflicts.length; conflict++) {
 
             if ($scope.isSerializable === false) {
                 break;
             }
 
-            for (var conflict = 0; conflict < serialArray[sItem].conflicts.length; conflict++) {
+            var checkSItem = serialArray[sItem].conflicts[conflict] - 1;
 
-                if ($scope.isSerializable === false) {
+            for (var secondConflict = 0; secondConflict < serialArray[checkSItem].conflicts.length; secondConflict++) {
+                if (serialArray[checkSItem].conflicts[secondConflict] === serialArray[sItem].trans) {
+                    $scope.isSerializable = false;
                     break;
-                }
-
-                var checkSItem = serialArray[sItem].conflicts[conflict] - 1;
-
-                for (var secondConflict = 0; secondConflict < serialArray[checkSItem].conflicts.length; secondConflict++) {
-                    if (serialArray[checkSItem].conflicts[secondConflict] === serialArray[sItem].trans) {
-                        $scope.isSerializable = false;
-                        break;
-                    }
-                }
-            }
-        }
-    };
-
-    function analyze(array, tSize) {
-
-        locateCommitAbort(tSize);
-
-        $scope.transactionCommitAborts.sort(function (a, b) {
-            return a.t - b.t;
-        })
-
-        for (var firstOperation = 0; firstOperation < array.length; firstOperation++) {
-
-            if (array[firstOperation].operation !== 'w') {
-                continue;
-            }
-
-            var firstObj = array[firstOperation];
-
-            for (var secondOperation = firstOperation + 1; secondOperation < array.length; secondOperation++) {
-
-                var secondObj = array[secondOperation];
-
-                if (secondObj.operation === 'c' || secondObj.operation === 'a') {
-                    continue;
-                }
-                if (firstObj.dataItem === secondObj.dataItem) {
-
-                    if (secondObj.operation === 'r' &&
-                        ($scope.transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
-                            $scope.transactionCommitAborts[firstObj.transaction - 1].index > secondOperation)){
-                        $scope.isACA = false;
-                        $scope.isStrict = false;
-                    }
-
-                    if (secondObj.operation === 'r' &&
-                        ($scope.transactionCommitAborts[secondObj.transaction - 1].op === 'c' &&
-                            $scope.transactionCommitAborts[firstObj.transaction - 1].index >
-                            $scope.transactionCommitAborts[secondObj.transaction - 1].index)) {
-                        $scope.isRecoverable = false;
-                    }
-
-                    if ($scope.transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
-                        $scope.transactionCommitAborts[firstObj.transaction - 1].index > secondOperation) {
-                        $scope.isStrict = false;
-                    }
-                }
-            }
-        }
-    };
-
-    function locateCommitAbort(tSize) {
-        while (tSize !== 0) {
-            for (var operation = $scope.HistoryArr.length - 1; operation > 0; operation--) {
-                if ($scope.HistoryArr[operation].operation === 'c' || $scope.HistoryArr[operation].operation === 'a') {
-                    var tempCA = {
-                        t: $scope.HistoryArr[operation].transaction,
-                        index: operation,
-                        op: $scope.HistoryArr[operation].operation
-                    };
-                    $scope.transactionCommitAborts.push(tempCA);
-                    --tSize;
                 }
             }
         }
     }
-}]);
+};
+
+function analyze(array, tSize) {
+
+    locateCommitAbort(tSize);
+
+    $scope.transactionCommitAborts.sort(function (a, b) {
+        return a.t - b.t;
+    })
+
+    for (var firstOperation = 0; firstOperation < array.length; firstOperation++) {
+
+        if (array[firstOperation].operation !== 'w') {
+            continue;
+        }
+
+        var firstObj = array[firstOperation];
+
+        for (var secondOperation = firstOperation + 1; secondOperation < array.length; secondOperation++) {
+
+            var secondObj = array[secondOperation];
+
+            if (secondObj.operation === 'c' || secondObj.operation === 'a') {
+                continue;
+            }
+            if (firstObj.dataItem === secondObj.dataItem) {
+
+                if (secondObj.operation === 'r' &&
+                    ($scope.transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
+                        $scope.transactionCommitAborts[firstObj.transaction - 1].index > secondOperation)) {
+                    $scope.isACA = false;
+                    $scope.isStrict = false;
+                }
+
+                if (secondObj.operation === 'r' &&
+                    ($scope.transactionCommitAborts[secondObj.transaction - 1].op === 'c' &&
+                        $scope.transactionCommitAborts[firstObj.transaction - 1].index >
+                        $scope.transactionCommitAborts[secondObj.transaction - 1].index)) {
+                    $scope.isRecoverable = false;
+                }
+
+                if ($scope.transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
+                    $scope.transactionCommitAborts[firstObj.transaction - 1].index > secondOperation) {
+                    $scope.isStrict = false;
+                }
+            }
+        }
+    }
+};
+
+function locateCommitAbort(tSize) {
+    while (tSize !== 0) {
+        for (var operation = $scope.HistoryArr.length - 1; operation > 0; operation--) {
+            if ($scope.HistoryArr[operation].operation === 'c' || $scope.HistoryArr[operation].operation === 'a') {
+                var tempCA = {
+                    t: $scope.HistoryArr[operation].transaction,
+                    index: operation,
+                    op: $scope.HistoryArr[operation].operation
+                };
+                $scope.transactionCommitAborts.push(tempCA);
+                --tSize;
+            }
+        }
+    }
+}
+}])
+;
