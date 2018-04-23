@@ -48,7 +48,7 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
             }
         }
 
-        $scope.isSerializable = CheckSerializability($scope.HistoryArr, tSize);
+        CheckSerializability($scope.HistoryArr, tSize);
         analyze($scope.HistoryArr, tSize);
     };
 
@@ -136,7 +136,7 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
 
             var firstObj = array[firstOperation];
 
-            for (var secondOperation = 1; secondOperation < array.length; secondOperation++) {
+            for (var secondOperation = firstOperation + 1; secondOperation < array.length; secondOperation++) {
 
                 var secondObj = array[secondOperation];
 
