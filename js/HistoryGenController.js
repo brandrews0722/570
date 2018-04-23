@@ -78,7 +78,7 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
             var serialItem = {trans: t, conflicts: []};
             serialArray.push(serialItem)
         }
-        
+
         for (var firstOperation = 0; firstOperation < array.length; firstOperation++) {
 
             if (array[firstOperation].operation === 'a' || array[firstOperation].operation === 'c') {
@@ -102,31 +102,32 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
                 }
             }
         }
-    }
 
-    for (var sItem = 0; sItem < serialArray.length; sItem++) {
-
-        if ($scope.isSerializable === false) {
-            break;
-        }
-
-        for (var conflict = 0; conflict < serialArray[sItem].conflicts.length; conflict++) {
+        for (var sItem = 0; sItem < serialArray.length; sItem++) {
 
             if ($scope.isSerializable === false) {
                 break;
             }
 
-            var checkSItem = serialArray[sItem].conflicts[conflict] - 1;
+            for (var conflict = 0; conflict < serialArray[sItem].conflicts.length; conflict++) {
 
-            for (var secondConflict = 0; secondConflict < serialArray[checkSItem].conflicts.length; secondConflict++) {
-                if (serialArray[checkSItem].conflicts[secondConflict] === serialArray[sItem].trans) {
-                    $scope.isSerializable = false;
+                if ($scope.isSerializable === false) {
                     break;
+                }
+
+                var checkSItem = serialArray[sItem].conflicts[conflict] - 1;
+
+                for (var secondConflict = 0; secondConflict < serialArray[checkSItem].conflicts.length; secondConflict++) {
+                    if (serialArray[checkSItem].conflicts[secondConflict] === serialArray[sItem].trans) {
+                        $scope.isSerializable = false;
+                        break;
+                    }
                 }
             }
         }
     }
-};
+
+
 
 function analyze(array, tSize) {
 

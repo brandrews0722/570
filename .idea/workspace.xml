@@ -37,8 +37,8 @@
       <file leaf-file-name="HistoryGenController.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/HistoryGenController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="80" column="8" lean-forward="false" selection-start-line="80" selection-start-column="8" selection-end-line="80" selection-end-column="8" />
+            <state relative-caret-position="969">
+              <caret line="127" column="5" lean-forward="false" selection-start-line="127" selection-start-column="5" selection-end-line="127" selection-end-column="5" />
               <folding>
                 <element signature="e#2206#2757#0" expanded="false" />
               </folding>
@@ -205,12 +205,12 @@
       <workItem from="1522107510285" duration="29247000" />
       <workItem from="1523847391690" duration="14000" />
       <workItem from="1524417090203" duration="13852000" />
-      <workItem from="1524446969410" duration="5754000" />
+      <workItem from="1524446969410" duration="5947000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48867000" />
+    <option name="totallyTimeSpent" value="49060000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -442,8 +442,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/HistoryGenController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="80" column="8" lean-forward="false" selection-start-line="80" selection-start-column="8" selection-end-line="80" selection-end-column="8" />
+        <state relative-caret-position="969">
+          <caret line="127" column="5" lean-forward="false" selection-start-line="127" selection-start-column="5" selection-end-line="127" selection-end-column="5" />
           <folding>
             <element signature="e#2206#2757#0" expanded="false" />
           </folding>
