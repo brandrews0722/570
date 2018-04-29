@@ -27,21 +27,21 @@
       <file leaf-file-name="Graph.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Graph.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-130">
-              <caret line="1" column="15" lean-forward="false" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
+            <state relative-caret-position="544">
+              <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Chart.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Chart.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Chart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="158" column="0" lean-forward="true" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
+            <state relative-caret-position="378">
+              <caret line="30" column="33" lean-forward="false" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
               <folding>
-                <element signature="n#!!block;n#generateGraphHistories#0" expanded="false" />
                 <element signature="n#!!block;n#shuffle#0" expanded="false" />
+                <element signature="n#!!block;n#CheckSerializability#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -50,7 +50,7 @@
       <file leaf-file-name="HistoryGenController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/HistoryGenController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
+            <state relative-caret-position="-217">
               <caret line="71" column="6" lean-forward="true" selection-start-line="71" selection-start-column="6" selection-end-line="71" selection-end-column="6" />
               <folding />
             </state>
@@ -77,11 +77,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1275">
-              <caret line="75" column="16" lean-forward="false" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="16" />
+            <state relative-caret-position="572">
+              <caret line="70" column="17" lean-forward="true" selection-start-line="70" selection-start-column="17" selection-end-line="70" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -102,10 +102,12 @@
     <findStrings>
       <find>headerFooter</find>
       <find>$scope.HistoryArr</find>
+      <find>array</find>
     </findStrings>
     <replaceStrings>
       <replace>pageStyle</replace>
       <replace>hArr</replace>
+      <replace>histArr</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -118,11 +120,11 @@
         <option value="$PROJECT_DIR$/js/AbortCommitConstant.js" />
         <option value="$PROJECT_DIR$/js/OperationsConstant.js" />
         <option value="$PROJECT_DIR$/js/DataItemsConstant.js" />
-        <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/HistoryGenController.js" />
-        <option value="$PROJECT_DIR$/Graph.html" />
         <option value="$PROJECT_DIR$/js/Chart.js" />
+        <option value="$PROJECT_DIR$/Graph.html" />
+        <option value="$PROJECT_DIR$/css/style.css" />
       </list>
     </option>
   </component>
@@ -231,12 +233,12 @@
       <workItem from="1524417090203" duration="13852000" />
       <workItem from="1524446969410" duration="6917000" />
       <workItem from="1524685681738" duration="3816000" />
-      <workItem from="1525007559600" duration="16898000" />
+      <workItem from="1525007559600" duration="22173000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70744000" />
+    <option name="totallyTimeSpent" value="76019000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -516,14 +518,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/AbortCommitConstant.js" />
-    <entry file="file://$PROJECT_DIR$/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1275">
-          <caret line="75" column="16" lean-forward="false" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/OperationsConstant.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -548,30 +542,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Graph.html">
+    <entry file="file://$PROJECT_DIR$/js/HistoryGenController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-130">
-          <caret line="1" column="15" lean-forward="false" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
+        <state relative-caret-position="-217">
+          <caret line="71" column="6" lean-forward="true" selection-start-line="71" selection-start-column="6" selection-end-line="71" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/HistoryGenController.js">
+    <entry file="file://$PROJECT_DIR$/Graph.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="71" column="6" lean-forward="true" selection-start-line="71" selection-start-column="6" selection-end-line="71" selection-end-column="6" />
+        <state relative-caret-position="544">
+          <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/Chart.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="158" column="0" lean-forward="true" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
+        <state relative-caret-position="378">
+          <caret line="30" column="33" lean-forward="false" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
           <folding>
-            <element signature="n#!!block;n#generateGraphHistories#0" expanded="false" />
             <element signature="n#!!block;n#shuffle#0" expanded="false" />
+            <element signature="n#!!block;n#CheckSerializability#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="572">
+          <caret line="70" column="17" lean-forward="true" selection-start-line="70" selection-start-column="17" selection-end-line="70" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -71,8 +71,14 @@ button:focus {outline:0;}
     color: white;
 }
 
-#maxImg {
-    align-content: center;
-    height: 50%;
-    width: 50%;
+#chart_div {
+    position: absolute;
+    top: 200px; /* Header Height */
+    bottom: 200px; /* Footer Height */
+    width: 100%;
+}
+
+#chart_div_main{
+    height: 100%;
+    width: 100%;
 }

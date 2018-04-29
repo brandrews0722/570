@@ -16,17 +16,24 @@ function drawChart() {
     var dataObj = CheckSerializability(historyArr);
     // Create the data table.
     var data = google.visualization.arrayToDataTable([
-        ['Year', 'Sales', 'Expenses', 'Profit'],
-        ['2014', 1000, 400, 200],
-        ['2015', 1170, 460, 250],
-        ['2016', 660, 1120, 300],
-        ['2017', 1030, 540, 350]
+        ['Transaction', 'DI(1)', 'DI(5)', 'DI(10)', 'DI(20)', 'DI(40)'],
+        [dataObj[0].t.toString(), dataObj[0].dSizes[0].s, dataObj[0].dSizes[1].s, dataObj[0].dSizes[2].s, dataObj[0].dSizes[3].s, dataObj[0].dSizes[4].s],
+        [dataObj[1].t.toString(), dataObj[1].dSizes[0].s, dataObj[1].dSizes[1].s, dataObj[1].dSizes[2].s, dataObj[1].dSizes[3].s, dataObj[1].dSizes[4].s],
+        [dataObj[2].t.toString(), dataObj[2].dSizes[0].s, dataObj[2].dSizes[1].s, dataObj[2].dSizes[2].s, dataObj[2].dSizes[3].s, dataObj[2].dSizes[4].s],
+        [dataObj[3].t.toString(), dataObj[3].dSizes[0].s, dataObj[3].dSizes[1].s, dataObj[3].dSizes[2].s, dataObj[3].dSizes[3].s, dataObj[3].dSizes[4].s]
     ]);
 
     var options = {
         chart: {
-            title: 'Company Performance',
-            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+            title: 'Serializability vs Number of Transactions and Data Items'
+        },
+        vAxis: {
+            gridlines: { count: 5 },
+            title: '% Serializable',
+            ticks: [20, 40, 60, 80, 100]
+        },
+        hAxis: {
+            title: '# of Transactions'
         }
     };
 
@@ -39,9 +46,10 @@ function generateGraphHistories() {
 //select data items to be used randomly
 
     var transOperationCounter = 0;
-    var tSize = [1, 5, 10, 20];
-    var dataItems = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't'];
-    var dSize = [1, 5, 10, 20];
+    var tSize = [1, 2, 5, 10];
+    var dataItems = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t'
+        ,'a1','b1','c1','d1','e1','f1','g1','h1','i1','j1','k1','l1','m1','n1','o1','p1','q1','r1','s1','t1'];
+    var dSize = [1, 5, 10, 20, 40];
     var operationsArr = ['r', 'w', 'a', 'c'];
     var tempTransactionAndHistoryArr = [];
     //for every transaction size
@@ -58,7 +66,7 @@ function generateGraphHistories() {
                 history: []
             };
 
-            for (var iter = 0; iter < 5; iter++) {
+            for (var iter = 0; iter < 10; iter++) {
                 var tempHistory = [];
                 //create the random transactions
                 for (var t2 = 0; t2 < tSize[t]; t2++) {
@@ -127,85 +135,98 @@ function shuffle(array) {
 };
 
 function CheckSerializability(array) {
-    var serialArray = [];
+
     var serialPercentArr = [];
-
-
 
     for (var tth = 0; tth < array.length; tth++){
 
         var tempSerial = {
             t: array[tth].transactionNum,
             dSizes: [],
-
         };
 
-        // for (var t = 1; t <= transactionSize; t++) {
-        //     var serialItem = {trans: t, conflicts: []};
-        //     serialArray.push(serialItem)
-        // }
         var dAICountsArray = array[tth].dataItemCounts;
 
         for (var di = 0; di < dAICountsArray.length; di++){
 
             var tempDsize = {
                 d: dAICountsArray[di].dataItemSize,
-                s: 0
+                s: 100
             };
 
             var historiesArr = dAICountsArray[di].history;
 
             for (var histories = 0; histories < historiesArr.length; histories++){
 
+                var serialArray = [];
+
+                for (var t = 1; t <= array[tth].transactionNum; t++) {
+                    var serialItem = {trans: t, conflicts: []};
+                    serialArray.push(serialItem)
+                }
+
+                var isSerial = checkSerial(historiesArr[histories]);
+                if (isSerial === false){
+                    tempDsize.s -= 10;
+                }
             }
+
+            tempSerial.dSizes.push(tempDsize);
         }
 
+        serialPercentArr.push(tempSerial);
     }
 
-    for (var firstOperation = 0; firstOperation < array.length; firstOperation++) {
+    return serialPercentArr;
 
-        if (array[firstOperation].operation === 'a' || array[firstOperation].operation === 'c') {
-            continue;
-        }
+    function checkSerial(histArr) {
 
-        for (var secondOperation = (firstOperation + 1); secondOperation < array.length; secondOperation++) {
+        var serialBool = true;
 
-            if (array[firstOperation].transaction === array[secondOperation].transaction) {
+        for (var firstOperation = 0; firstOperation < histArr.length; firstOperation++) {
+
+            if (histArr[firstOperation].operation === 'a' || histArr[firstOperation].operation === 'c') {
                 continue;
             }
-            else if (array[firstOperation].dataItem !== array[secondOperation].dataItem) {
-                continue;
-            }
-            else if (array[secondOperation].operation === 'a' || array[secondOperation].operation === 'c') {
-                continue;
-            }
-            else if (array[firstOperation].operation === 'w' || array[secondOperation].operation === 'w') {
-                var conflictingTransaction = array[secondOperation].transaction;
-                serialArray[array[firstOperation].transaction - 1].conflicts.push(conflictingTransaction);
-            }
-        }
-    }
 
-    for (var sItem = 0; sItem < serialArray.length; sItem++) {
+            for (var secondOperation = (firstOperation + 1); secondOperation < histArr.length; secondOperation++) {
 
-        if ($scope.isSerializable === false) {
-            break;
-        }
 
-        for (var conflict = 0; conflict < serialArray[sItem].conflicts.length; conflict++) {
-
-            if ($scope.isSerializable === false) {
-                break;
-            }
-
-            var checkSItem = serialArray[sItem].conflicts[conflict] - 1;
-
-            for (var secondConflict = 0; secondConflict < serialArray[checkSItem].conflicts.length; secondConflict++) {
-                if (serialArray[checkSItem].conflicts[secondConflict] === serialArray[sItem].trans) {
-                    $scope.isSerializable = false;
-                    break;
+                if (histArr[firstOperation].transaction === histArr[secondOperation].transaction) {
+                    continue;
+                }
+                else if (histArr[firstOperation].dataItem !== histArr[secondOperation].dataItem) {
+                    continue;
+                }
+                else if (histArr[secondOperation].operation === 'a' || histArr[secondOperation].operation === 'c') {
+                    continue;
+                }
+                else if (histArr[firstOperation].operation === 'w' || histArr[secondOperation].operation === 'w') {
+                    var conflictingTransaction = histArr[secondOperation].transaction;
+                    serialArray[histArr[firstOperation].transaction - 1].conflicts.push(conflictingTransaction);
                 }
             }
         }
+
+        for (var sItem = 0; sItem < serialArray.length; sItem++) {
+
+            for (var conflict = 0; conflict < serialArray[sItem].conflicts.length; conflict++) {
+
+                if (serialBool === false){
+                    return serialBool;
+                }
+
+                var checkSItem = serialArray[sItem].conflicts[conflict] - 1;
+
+                for (var secondConflict = 0; secondConflict < serialArray[checkSItem].conflicts.length; secondConflict++) {
+                    if (serialArray[checkSItem].conflicts[secondConflict] === serialArray[sItem].trans) {
+                        serialBool = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return serialBool;
     }
 }
