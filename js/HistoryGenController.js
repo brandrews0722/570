@@ -1,5 +1,5 @@
 HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operationsArr', function ($scope, $window, dataItemArr, operationsArr) {
-    $scope.tOptions = [1, 2, 3, 4];
+    $scope.tOptions = [1, 2, 3, 4, 'Test_NotRC', 'TestRC', 'TestACA', 'TestST'];
     $scope.dOptions = [1, 2, 3, 4];
     $scope.inputs = {tSize: 0, dSize: 0};
 
@@ -9,41 +9,64 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
         $scope.isRecoverable = true;
         $scope.isStrict = true;
         $scope.isACA = true;
+        $scope.reasonSerial = 'N/A';
+        $scope.reasonRecoverable = 'N/A';
+        $scope.reasonStrict = 'N/A';
+        $scope.reasonACA = 'N/A';
         $scope.HistoryArr = [];
         var tempDataItemArr = [];
         var transOperationCounter = 0;
 
-        //select data items to be used randomly
-        for (var di = 0; di < dSize; di++) {
-            tempDataItemArr.push(dataItemArr[di]);
+        if (tSize === 'Test_NotRC'){
+            $scope.HistoryArr = [{transaction: 1,operation: 'w',dataItem: 'x'},{transaction: 1,operation: 'w',dataItem: 'y'},{transaction: 2,operation: 'r',dataItem: 'u'},{transaction: 2,operation: 'w',dataItem: 'x'},{transaction: 2,operation: 'r',dataItem: 'y'},{transaction: 2,operation: 'w',dataItem: 'y'},{transaction: 2,operation: 'c',dataItem: ''},{transaction: 1,operation: 'w',dataItem: 'z'},{transaction: 1,operation: 'c',dataItem: ''}];
+            tSize = 2;
         }
+        else if (tSize === 'TestRC'){
+            $scope.HistoryArr = [{transaction: 1,operation: 'w',dataItem: 'x'},{transaction: 1,operation: 'w',dataItem: 'y'},{transaction: 2,operation: 'r',dataItem: 'u'},{transaction: 2,operation: 'w',dataItem: 'x'},{transaction: 2,operation: 'r',dataItem: 'y'},{transaction: 2,operation: 'w',dataItem: 'y'},{transaction: 1,operation: 'w',dataItem: 'z'},{transaction: 1,operation: 'c',dataItem: ''},{transaction: 2,operation: 'c',dataItem: ''}];
+            tSize = 2;
+        }
+        else if (tSize === 'TestACA'){
+            $scope.HistoryArr = [{transaction: 1,operation: 'w',dataItem: 'x'},{transaction: 1,operation: 'w',dataItem: 'y'},{transaction: 2,operation: 'r',dataItem: 'u'},{transaction: 2,operation: 'w',dataItem: 'x'},{transaction: 1,operation: 'w',dataItem: 'z'},{transaction: 1,operation: 'c',dataItem: ''},{transaction: 2,operation: 'r',dataItem: 'y'},{transaction: 2,operation: 'w',dataItem: 'y'},{transaction: 2,operation: 'c',dataItem: ''}];
+            tSize = 2;
+        }
+        else if (tSize === 'TestST'){
+            $scope.HistoryArr = [{transaction: 1,operation: 'w',dataItem: 'x'},{transaction: 1,operation: 'w',dataItem: 'y'},{transaction: 2,operation: 'r',dataItem: 'u'},{transaction: 1,operation: 'w',dataItem: 'z'},{transaction: 1,operation: 'c',dataItem: ''},{transaction: 2,operation: 'w',dataItem: 'x'},{transaction: 2,operation: 'r',dataItem: 'y'},{transaction: 2,operation: 'w',dataItem: 'y'},{transaction: 2,operation: 'c',dataItem: ''}];
+            tSize = 2;
+        }
+        else {
 
-        var tempDataItemCount = tempDataItemArr.length;
-
-        //create the random transactions
-        for (var t = 0; t < tSize; t++) {
-            while (transOperationCounter < 6) {
-                var tempTransactionItem = {
-                    transaction: t + 1,
-                    operation: '',
-                    dataItem: ''
-                };
-                tempTransactionItem.operation = operationsArr[Math.round(Math.random())]; //selects read or write
-                tempTransactionItem.dataItem = tempDataItemArr[Math.floor(Math.random() * tempDataItemCount)];
-                $scope.HistoryArr.push(tempTransactionItem);
-                ++transOperationCounter;
+            //select data items to be used randomly
+            for (var di = 0; di < dSize; di++) {
+                tempDataItemArr.push(dataItemArr[di]);
             }
-            transOperationCounter = 0;
-        }
 
-        shuffle($scope.HistoryArr);
+            var tempDataItemCount = tempDataItemArr.length;
 
-        for (var transactionNumber = 1; transactionNumber < (tSize + 1); transactionNumber++) {
-            for (var historyItem = $scope.HistoryArr.length - 1; historyItem > 0; historyItem--) {
-                if ($scope.HistoryArr[historyItem].transaction === transactionNumber) {
-                    $scope.HistoryArr[historyItem].operation = operationsArr[Math.floor(Math.random() * 2) + 2];
-                    $scope.HistoryArr[historyItem].dataItem = '';
-                    break;
+            //create the random transactions
+            for (var t = 0; t < tSize; t++) {
+                while (transOperationCounter < 6) {
+                    var tempTransactionItem = {
+                        transaction: t + 1,
+                        operation: '',
+                        dataItem: ''
+                    };
+                    tempTransactionItem.operation = operationsArr[Math.round(Math.random())]; //selects read or write
+                    tempTransactionItem.dataItem = tempDataItemArr[Math.floor(Math.random() * tempDataItemCount)];
+                    $scope.HistoryArr.push(tempTransactionItem);
+                    ++transOperationCounter;
+                }
+                transOperationCounter = 0;
+            }
+
+            shuffle($scope.HistoryArr);
+
+            for (var transactionNumber = 1; transactionNumber < (tSize + 1); transactionNumber++) {
+                for (var historyItem = $scope.HistoryArr.length - 1; historyItem > 0; historyItem--) {
+                    if ($scope.HistoryArr[historyItem].transaction === transactionNumber) {
+                        $scope.HistoryArr[historyItem].operation = operationsArr[Math.floor(Math.random() * 2) + 2];
+                        $scope.HistoryArr[historyItem].dataItem = '';
+                        break;
+                    }
                 }
             }
         }
@@ -97,7 +120,7 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
                     continue;
                 }
                 else if (array[firstOperation].operation === 'w' || array[secondOperation].operation === 'w') {
-                    var conflictingTransaction = array[secondOperation].transaction;
+                    var conflictingTransaction = {t: array[secondOperation].transaction, d: array[secondOperation].dataItem};
                     serialArray[array[firstOperation].transaction - 1].conflicts.push(conflictingTransaction);
                 }
             }
@@ -115,11 +138,13 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
                     break;
                 }
 
-                var checkSItem = serialArray[sItem].conflicts[conflict] - 1;
+                var checkSItem = serialArray[sItem].conflicts[conflict].t - 1;
 
                 for (var secondConflict = 0; secondConflict < serialArray[checkSItem].conflicts.length; secondConflict++) {
-                    if (serialArray[checkSItem].conflicts[secondConflict] === serialArray[sItem].trans) {
+                    if (serialArray[checkSItem].conflicts[secondConflict].t === serialArray[sItem].trans) {
                         $scope.isSerializable = false;
+                        $scope.reasonSerial = 'T' + serialArray[checkSItem].trans + ' conflicts with T' + serialArray[sItem].trans +
+                            ' on data item "' + serialArray[checkSItem].conflicts[secondConflict].d + '".';
                         break;
                     }
                 }
@@ -154,11 +179,24 @@ function analyze(array, tSize) {
             }
             if (firstObj.dataItem === secondObj.dataItem) {
 
+                if ($scope.transactionCommitAborts[firstObj.transaction - 1].op === 'a' &&
+                    $scope.transactionCommitAborts[secondObj.transaction - 1].op === 'a' &&
+                    $scope.transactionCommitAborts[firstObj.transaction - 1].index >
+                    $scope.transactionCommitAborts[secondObj.transaction - 1].index){
+                    $scope.isRecoverable = false;
+                    $scope.reasonRecoverable = 'Both T' + firstObj.transaction + ' and T' + secondObj.transaction +
+                        ' and the dependent transaction aborts last.';
+                }
+
                 if (secondObj.operation === 'r' &&
                     ($scope.transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
                         $scope.transactionCommitAborts[firstObj.transaction - 1].index > secondOperation)) {
                     $scope.isACA = false;
                     $scope.isStrict = false;
+                    $scope.reasonACA = 'T' + firstObj.transaction + ', the independent transaction, aborts or commits' +
+                        'after the read of the dependent transaction, T' + secondObj.transaction + '.';
+                    $scope.reasonStrict = 'T' + firstObj.transaction + ', the independent transaction, aborts or commits' +
+                    ' after the read of the dependent transaction, T' + secondObj.transaction + '.';
                 }
 
                 if (secondObj.operation === 'r' &&
@@ -166,11 +204,15 @@ function analyze(array, tSize) {
                         $scope.transactionCommitAborts[firstObj.transaction - 1].index >
                         $scope.transactionCommitAborts[secondObj.transaction - 1].index)) {
                     $scope.isRecoverable = false;
+                    $scope.reasonRecoverable = 'T' + firstObj.transaction + ' commits before the dependent' +
+                        ' transaction, T' + secondObj.transaction + '.';
                 }
 
                 if ($scope.transactionCommitAborts[firstObj.transaction - 1].op !== 'a' &&
                     $scope.transactionCommitAborts[firstObj.transaction - 1].index > secondOperation) {
                     $scope.isStrict = false;
+                    $scope.reasonStrict = 'T' + firstObj.transaction + ', the independent transaction, aborts or commits' +
+                        ' after the write of the dependent transaction, T' + secondObj.transaction + '.';
                 }
             }
         }

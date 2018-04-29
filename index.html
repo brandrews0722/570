@@ -67,10 +67,30 @@
             </div>
         </div>
         <div class="col">
-            Serializable: {{isSerializable}}<br>
-            Recoverable: {{isRecoverable}}<br>
-            ACA: {{isACA}}<br>
-            ST: {{isStrict}}<br>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>Serializable: {{isSerializable}}</td>
+                    <td>{{reasonSerial}}</td>
+                </tr>
+                <tr>
+                    <td>Recoverable: {{isRecoverable}}</td>
+                    <td>{{reasonRecoverable}}</td>
+                </tr>
+                <tr>
+                    <td>ACA: {{isACA}}</td>
+                    <td>{{reasonACA}}</td>
+                </tr>
+                <tr>
+                    <td>ST: {{isStrict}}</td>
+                    <td>{{reasonStrict}}</td>
+                </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
