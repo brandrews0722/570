@@ -85,7 +85,7 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
                 continue;
             }
 
-            for (var secondOperation = 1; secondOperation < array.length; secondOperation++) {
+            for (var secondOperation = (firstOperation + 1); secondOperation < array.length; secondOperation++) {
 
                 if (array[firstOperation].transaction === array[secondOperation].transaction) {
                     continue;
