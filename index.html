@@ -50,7 +50,11 @@
                 </div>
                 <div class="row">
                     <!--<div class="d-flex align-items-center">-->
-                    <div class="col align-content-center text-center">
+                    <div class="col text-right d-inline-block">
+                            <label class="form-check-label" id="labelCheck">Commit All</label>
+                            <input type="checkbox" class="form-check-input" id="check" ng-model="commitAllBool" ng-change="commitAll()">
+                    </div>
+                    <div class="col text-left">
                         <button type="submit" class="btn pageStyle"
                                 id="myButton" ng-click="generate(inputs.tSize, inputs.dSize)">
                             Generate
@@ -86,8 +90,8 @@
                     <td>{{reasonStrict}}</td>
                 </tr>
                 <tr>
-                    <td> </td>
-                    <td> </td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>

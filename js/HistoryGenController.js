@@ -14,8 +14,13 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
         $scope.reasonStrict = 'N/A';
         $scope.reasonACA = 'N/A';
         $scope.HistoryArr = [];
+        $scope.commitAllBool = document.getElementById("check").checked;
         var tempDataItemArr = [];
         var transOperationCounter = 0;
+
+        if ($scope.commitAllBool === true){
+            tSize = 2;
+        }
 
         if (tSize === 'Test_NotRC'){
             $scope.HistoryArr = [{transaction: 1,operation: 'w',dataItem: 'x'},{transaction: 1,operation: 'w',dataItem: 'y'},{transaction: 2,operation: 'r',dataItem: 'u'},{transaction: 2,operation: 'w',dataItem: 'x'},{transaction: 2,operation: 'r',dataItem: 'y'},{transaction: 2,operation: 'w',dataItem: 'y'},{transaction: 2,operation: 'c',dataItem: ''},{transaction: 1,operation: 'w',dataItem: 'z'},{transaction: 1,operation: 'c',dataItem: ''}];
@@ -60,12 +65,25 @@ HistoryApp.controller('HistoryGen', ['$scope', '$window', 'dataItemArr', 'operat
 
             shuffle($scope.HistoryArr);
 
-            for (var transactionNumber = 1; transactionNumber < (tSize + 1); transactionNumber++) {
-                for (var historyItem = $scope.HistoryArr.length - 1; historyItem > 0; historyItem--) {
-                    if ($scope.HistoryArr[historyItem].transaction === transactionNumber) {
-                        $scope.HistoryArr[historyItem].operation = operationsArr[Math.floor(Math.random() * 2) + 2];
-                        $scope.HistoryArr[historyItem].dataItem = '';
-                        break;
+            if ($scope.commitAllBool === true) {
+                var firstTransactionToCommit = Math.round(Math.random()) + 1;
+
+                $scope.HistoryArr.push({transaction: firstTransactionToCommit, operation: 'c', dataItem: ''});
+                if (firstTransactionToCommit === 1) {
+                    $scope.HistoryArr.push({transaction: 2, operation: 'c', dataItem: ''});
+                }
+                else {
+                    $scope.HistoryArr.push({transaction: 1, operation: 'c', dataItem: ''});
+                }
+            }
+            else {
+                for (var transactionNumber = 1; transactionNumber < (tSize + 1); transactionNumber++) {
+                    for (var historyItem = $scope.HistoryArr.length - 1; historyItem > 0; historyItem--) {
+                        if ($scope.HistoryArr[historyItem].transaction === transactionNumber) {
+                            $scope.HistoryArr[historyItem].operation = operationsArr[Math.floor(Math.random() * 2) + 2];
+                            $scope.HistoryArr[historyItem].dataItem = '';
+                            break;
+                        }
                     }
                 }
             }

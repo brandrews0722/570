@@ -82,3 +82,13 @@ button:focus {outline:0;}
     height: 100%;
     width: 100%;
 }
+
+#labelCheck {
+    position: relative;
+    right: 10px;
+}
+
+#check {
+    position: relative;
+    right: 5px;
+}
