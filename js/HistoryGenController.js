@@ -212,7 +212,7 @@ function analyze(array, tSize) {
                     $scope.isACA = false;
                     $scope.isStrict = false;
                     $scope.reasonACA = 'T' + firstObj.transaction + ', the independent transaction, aborts or commits' +
-                        'after the read of the dependent transaction, T' + secondObj.transaction + '.';
+                        ' after the read of the dependent transaction, T' + secondObj.transaction + '.';
                     $scope.reasonStrict = 'T' + firstObj.transaction + ', the independent transaction, aborts or commits' +
                     ' after the read of the dependent transaction, T' + secondObj.transaction + '.';
                 }
