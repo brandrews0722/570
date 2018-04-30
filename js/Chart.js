@@ -66,7 +66,7 @@ function generateGraphHistories() {
                 history: []
             };
 
-            for (var iter = 0; iter < 10; iter++) {
+            for (var iter = 0; iter < 1000; iter++) {
                 var tempHistory = [];
                 //create the random transactions
                 for (var t2 = 0; t2 < tSize[t]; t2++) {
@@ -167,7 +167,7 @@ function CheckSerializability(array) {
 
                 var isSerial = checkSerial(historiesArr[histories]);
                 if (isSerial === false){
-                    tempDsize.s -= 10;
+                    tempDsize.s -= .1;
                 }
             }
 
